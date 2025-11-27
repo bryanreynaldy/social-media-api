@@ -14,7 +14,7 @@ extractor = SocialMediaExtractor()
 def home():
     return jsonify({
         "message": "Social Media Engagement API",
-        "version": "1.0",
+        "version": "1.0", 
         "endpoints": {
             "/health": "Check API health",
             "/extract": "Extract engagement metrics from social media links (POST)",
@@ -33,7 +33,7 @@ def platforms():
             "X/Twitter",
             "YouTube", 
             "TikTok",
-            "Stockbit",
+            "Stockbit", 
             "Instagram",
             "LinkedIn"
         ]
@@ -65,11 +65,14 @@ def extract_engagement():
             return jsonify({"error": "No valid links provided"}), 400
         
         # Process links
+        print(f"📥 Processing {len(valid_links)} links...")
         result = extractor.process_links(valid_links)
+        print(f"✅ Processing complete")
         
         return jsonify(result)
         
     except Exception as e:
+        print(f"❌ API Error: {str(e)}")
         return jsonify({"error": f"Internal server error: {str(e)}"}), 500
 
 @app.route('/extract-single', methods=['POST'])
@@ -84,6 +87,8 @@ def extract_single():
         
         if not url:
             return jsonify({"error": "No URL provided"}), 400
+        
+        print(f" Processing single URL: {url}")
         
         # Process single URL
         platform = extractor.detect_platform(url)
@@ -107,30 +112,20 @@ def extract_single():
                 "error": "Unsupported platform"
             }
         
+        print(f" Single URL processing complete")
         return jsonify({"result": result})
         
     except Exception as e:
+        print(f"❌ Single URL Error: {str(e)}")
         return jsonify({"error": f"Internal server error: {str(e)}"}), 500
 
-def get_local_ip():
-    """Get local IP address"""
-    try:
-        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        s.connect(("8.8.8.8", 80))
-        ip = s.getsockname()[0]
-        s.close()
-        return ip
-    except:
-        return "127.0.0.1"
-
+# Untuk Replit - run on port 5000
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
     print(f"Starting Social Media API Server...")
-    print(f"Local: http://127.0.0.1:{port}")
-    print(f"Network: http://{get_local_ip()}:{port}")
-    print("Press CTRL+C to stop the server")
+    print(f"URL: https://your-repl-name.your-username.repl.co")
     
     try:
         app.run(host='0.0.0.0', port=port, debug=False)
     except Exception as e:
-        print(f"Error: {e}")
+        print(f" Error: {e}")
