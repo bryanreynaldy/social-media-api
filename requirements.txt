@@ -1,0 +1,6 @@
+flask==2.0.1
+requests==2.25.1
+beautifulsoup4==4.9.3
+twscrape==1.0.4
+instaloader==4.7.3
+selenium==4.1.0
