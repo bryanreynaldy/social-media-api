@@ -1,0 +1,14 @@
+language = "python3"
+entryPoint = "main.py"
+
+[packages]
+"python3-flask" = "*"
+"python3-selenium" = "*"
+"chromium-browser" = "*"
+"chromium-chromedriver" = "*"
+
+[env]
+PORT = "5000"
+
+[features]
+packageSearch = true
