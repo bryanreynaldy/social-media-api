@@ -10,6 +10,7 @@ import os
 import time
 import random
 import getpass
+from selenium.webdriver.chrome.service import Service
 from datetime import datetime
 from dataclasses import dataclass
 from typing import Optional, List, Dict, Any
@@ -632,8 +633,9 @@ class SocialMediaExtractor:
         chrome_options.add_argument("--window-size=1920,1080")
     
         chrome_options.add_argument("--remote-debugging-port=9222")
-        chrome_options.add_argument("--disable-features=VizDisplayCompositor")
-        chrome_options.binary_location = "/usr/bin/google-chrome"
+        chrome_options.binary_location = "/usr/bin/google-chrome-stable"
+        
+        service = Service(executable_path="/usr/bin/chromedriver")
         
         driver = webdriver.Chrome(options=chrome_options)
         return driver
