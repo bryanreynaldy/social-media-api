@@ -1,7 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import os
-import socket
 from social_media_extractor import SocialMediaExtractor
 
 app = Flask(__name__)
@@ -14,10 +13,10 @@ extractor = SocialMediaExtractor()
 def home():
     return jsonify({
         "message": "Social Media Engagement API",
-        "version": "1.0", 
+        "version": "1.0",
         "endpoints": {
             "/health": "Check API health",
-            "/extract": "Extract engagement metrics from social media links (POST)",
+            "/extract": "Extract engagement metrics from social media links (POST)", 
             "/platforms": "Get supported platforms"
         }
     })
@@ -31,9 +30,9 @@ def platforms():
     return jsonify({
         "supported_platforms": [
             "X/Twitter",
-            "YouTube", 
-            "TikTok",
-            "Stockbit", 
+            "YouTube",
+            "TikTok", 
+            "Stockbit",
             "Instagram",
             "LinkedIn"
         ]
@@ -88,16 +87,16 @@ def extract_single():
         if not url:
             return jsonify({"error": "No URL provided"}), 400
         
-        print(f" Processing single URL: {url}")
+        print(f"📥 Processing single URL: {url}")
         
         # Process single URL
         platform = extractor.detect_platform(url)
         
         processors = {
             'x': extractor.fetch_x_metrics,
-            'youtube': extractor.fetch_youtube_metrics, 
+            'youtube': extractor.fetch_youtube_metrics,
             'tiktok': extractor.fetch_tiktok_metrics,
-            'stockbit': extractor.fetch_stockbit_metrics,
+            'stockbit': extractor.fetch_stockbit_metrics, 
             'instagram': extractor.fetch_instagram_metrics,
             'linkedin': extractor.fetch_linkedin_metrics
         }
@@ -116,16 +115,10 @@ def extract_single():
         return jsonify({"result": result})
         
     except Exception as e:
-        print(f"❌ Single URL Error: {str(e)}")
+        print(f" Single URL Error: {str(e)}")
         return jsonify({"error": f"Internal server error: {str(e)}"}), 500
 
-# Untuk Replit - run on port 5000
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
-    print(f"Starting Social Media API Server...")
-    print(f"URL: https://your-repl-name.your-username.repl.co")
-    
-    try:
-        app.run(host='0.0.0.0', port=port, debug=False)
-    except Exception as e:
-        print(f" Error: {e}")
+    print(f"Starting Social Media API Server on port {port}...")
+    app.run(host='0.0.0.0', port=port, debug=False)
